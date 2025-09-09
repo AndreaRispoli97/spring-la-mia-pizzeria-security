@@ -8,6 +8,7 @@ import org.lessons.java.spring.spring_la_mia_pizzeria_crud.repository.Ingredient
 import org.lessons.java.spring.spring_la_mia_pizzeria_crud.repository.OffertRepository;
 import org.lessons.java.spring.spring_la_mia_pizzeria_crud.service.PizzaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -35,7 +36,8 @@ public class PizzaController {
     private IngredientRepository ingredientRepository;
 
     @GetMapping
-    public String index(@RequestParam(name = "name", required = false) String name, Model model) {
+    public String index(@RequestParam(name = "name", required = false) String name, Authentication authentication,
+            Model model) {
 
         List<Pizza> pizzas;
         if (name != null && !name.isEmpty()) {
@@ -45,6 +47,7 @@ public class PizzaController {
         }
 
         model.addAttribute("pizzas", pizzas);
+        model.addAttribute("username", authentication.getName());
 
         return "pizzas/index";
     }

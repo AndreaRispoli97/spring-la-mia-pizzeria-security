@@ -64,6 +64,7 @@ public class Pizza {
     }
 
     @ManyToMany
+    @JsonIgnore
     @JoinTable(name = "pizza_ingredient", joinColumns = @JoinColumn(name = "pizza_id"), inverseJoinColumns = @JoinColumn(name = "ingredient_id"))
     private List<Ingredient> ingredients;
 
