@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.7/css/bootstrap.min.css}" />
+    <title>Single Pizza</title>
+</head>
+
+<body>
+    <th:block th:replace="~{fragments/fragments :: navbar}"></th:block>
+    <main class="container py-5" th:object="${pizza}">
+        <div class="card shadow-lg border-0 rounded-4 mx-auto" style="max-width: 600px;">
+            <img th:src="*{image}" alt="Pizza" class="card-img-top rounded-top-4">
+            <div class="card-body text-center">
+                <h1 class="card-title fw-bold display-5 text-primary">
+                    Pizza: [[*{name}]]
+                </h1>
+                <p class="card-text fs-5 text-muted">
+                    Ingredienti: [[*{description}]]
+                </p>
+
+                <a th:href="@{/pizzas/{id}/offerta(id=${pizza.id})}" class="btn btn-primary btn-sm">Nuova Offerta</a>
+
+            </div>
+        </div>
+        <section class="row m-3">
+            <div class="col-12" th:unless="${pizza.getOfferts().size() > 0}">
+                <div class="alert alert-warning">
+                    <h2>Nessuna Offerta per questa pizza</h2>
+                </div>
+            </div>
+            <div class="col-12" th:if="${pizza.getOfferts().size() > 0}">
+                <h2 class="fw-bold">Offerte</h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Data Inizio</th>
+                            <th>Data Fine</th>
+                            <th>Nome Offerta</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="offert : *{offerts}">
+                            <td>[[${offert.id}]]</td>
+                            <td>[[${offert.offerDate}]]</td>
+                            <td>[[${offert.finishOfferDate}]]</td>
+                            <td>[[${offert.titleOffer}]]</td>
+                            <td>
+                                <a th:href="@{/offerts/edit/{id}(id=${offert.id})}"
+                                    class="btn btn-success btn-sm">Aggiorna</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+
+</body>
+
+</html>
